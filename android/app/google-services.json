@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "1036847974862",
+    "firebase_url": "https://learn-mongodb.firebaseio.com",
+    "project_id": "learn-mongodb",
+    "storage_bucket": "learn-mongodb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036847974862:android:4c2c55ecd5643fc7db439f",
+        "android_client_info": {
+          "package_name": "com.quest.learnmongo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036847974862-725ss8hmn1ptmcmkbo645g4r25n3n97c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkr3f7L6svLrwW3vN2u6feHqR5K-the08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036847974862-725ss8hmn1ptmcmkbo645g4r25n3n97c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "admob_app_id": "ca-app-pub-6216078565461407~5761490509"
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
