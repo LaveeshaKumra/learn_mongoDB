@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:learningapp/main.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
      );
    }
   Future<bool> _function() async{
-    await Future.delayed(Duration(milliseconds: 4000),(){});
+    await Future.delayed(Duration(milliseconds: 3000),(){});
     return true;
 }
   

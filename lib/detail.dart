@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 class DetailPage extends StatefulWidget {
   static int index;
@@ -19,11 +20,16 @@ class _DetailPageState extends State<DetailPage> {
     index = i;
   }
 
-
+  BannerAd _bannerAd;
 
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAdMob.instance
+        .initialize(appId: "ca-app-pub-6216078565461407~5761490509");
+    _bannerAd=myBanner..load()..show();
+
+
     return FutureBuilder(builder: (context, AsyncSnapshot snapshot)
     {
       if (snapshot.hasData) {
@@ -102,5 +108,45 @@ class _DetailPageState extends State<DetailPage> {
     }, future: DefaultAssetBundle.of(context).loadString("assets/data.json"),
     );
     }
+
+
+  static MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+    keywords: <String>['Learn', 'MongoDb'],
+    contentUrl: 'https://flutter.io',
+    birthday: DateTime.now(),
+    childDirected: false,
+    designedForFamilies: false,
+    gender: MobileAdGender.female,
+    testDevices: <String>[], // Android emulators are considered test devices
+  );
+
+  BannerAd myBanner = BannerAd(
+    // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+    // https://developers.google.com/admob/android/test-ads
+    // https://developers.google.com/admob/ios/test-ads
+    adUnitId: "ca-app-pub-6216078565461407/6308285418",
+    //adUnitId: BannerAd.testAdUnitId,
+    size: AdSize.smartBanner,
+    targetingInfo: targetingInfo,
+    listener: (MobileAdEvent event) {
+      print("BannerAd event is $event");
+    },
+  );
+
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    super.dispose();
   }
+
+  @override
+  void initState() {
+
+//    FirebaseAdMob.instance
+//        .initialize(appId: "ca-app-pub-6216078565461407~5761490509");
+//    _bannerAd=myBanner..load()..show();
+  }
+
+
+}
 
