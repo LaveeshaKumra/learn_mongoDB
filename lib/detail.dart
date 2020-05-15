@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:firebase_admob/firebase_admob.dart';
-import 'package:firebase_admob/firebase_admob.dart';
+import 'package:http/http.dart';
+import 'package:connectivity/connectivity.dart';
 
 class DetailPage extends StatefulWidget {
   static int index;
@@ -18,10 +19,41 @@ class _DetailPageState extends State<DetailPage> {
   static int index;
   _DetailPageState(int i) {
     index = i;
+    _get();
+    _checkconnectivity();
   }
 
-  BannerAd _bannerAd;
+  var clickes=0;
 
+  _checkconnectivity() async {
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("No internet Connection"),
+              content: Text("Check your internet connection"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Ok',style: TextStyle(color: Colors.green)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
+    }
+  }
+  BannerAd _bannerAd;
+  Future<String> _get() async{
+    Response response = await get("https://raw.githubusercontent.com/devatomdata/data1mongo/master/data1");
+    if(response.statusCode==200){
+      print(response.body);
+    }
+    return response.body;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +69,6 @@ class _DetailPageState extends State<DetailPage> {
       return Scaffold(
         appBar: AppBar(
           title: Text(showData[index]['title']),
-//          actions: <Widget>[
-//            IconButton(
-//              icon: Icon(Icons.file_download),
-//              onPressed: () {
-//                print("download");
-//              },
-//            )
-//          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -89,23 +113,45 @@ class _DetailPageState extends State<DetailPage> {
       );
     }
     else{
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              child: CircularProgressIndicator(),
-              width: 40,
-              height: 40,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: Text("Loading.."),
-            )
-          ],
+        return FutureBuilder(
+          future: Future.delayed(Duration(milliseconds: 5000)),
+          builder: (context,snapshot){
+            if(snapshot.connectionState==ConnectionState.done){
+              return Center(
+                child: Text(
+                  "Something went wrong\nPlease Try again later",
+                  style: TextStyle(color: Colors.green),
+                ),
+              );
+            }
+            else{
+              return Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        child: CircularProgressIndicator(
+//                            valueColor: new AlwaysStoppedAnimation<Color>(
+//                                Colors.green)
+                        ),
+                        width: 30,
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Text("Loading.."),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }
+          },
         );
       }
-    }, future: DefaultAssetBundle.of(context).loadString("assets/data.json"),
+    }, future: _get(),
     );
     }
 
@@ -141,10 +187,9 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   void initState() {
-
-//    FirebaseAdMob.instance
-//        .initialize(appId: "ca-app-pub-6216078565461407~5761490509");
-//    _bannerAd=myBanner..load()..show();
+    FirebaseAdMob.instance
+        .initialize(appId: "ca-app-pub-6216078565461407~5761490509");
+    _bannerAd=myBanner..load()..show();
   }
 
 

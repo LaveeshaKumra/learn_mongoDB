@@ -1,6 +1,6 @@
 name: learningapp
 description: A new Flutter application.
-version: 3.0.0+3
+version: 4.0.0+4
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -9,11 +9,13 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2
-  path_provider: ^1.5.1
   firebase_admob: ^0.9.3
   launch_review: any
   share: any
   url_launcher:
+  http:
+  connectivity: ^0.4.8+2
+  shared_preferences: any
 
 
 
@@ -26,7 +28,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - data.json
     - assets/images/splash.png
 
 flutter_icons:
